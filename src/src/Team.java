@@ -5,9 +5,9 @@ class Team {
     private int score;
     private int tossUpCount;
     private Stack<Integer> scoreTracker;
-    private Stack<String> tossUpTracker;
+    private Stack<Integer> tossUpTracker;
 
-    Team(String name, int score, int tossUpCount, Stack<Integer> scoreTracker, Stack<String> tossUpTracker) {
+    Team(String name, int score, int tossUpCount, Stack<Integer> scoreTracker, Stack<Integer> tossUpTracker) {
         this.name = name;
         this.score = score;
         this.tossUpCount = tossUpCount;
@@ -15,23 +15,29 @@ class Team {
         this.tossUpTracker = tossUpTracker;
     }
 
+    void penalty() {
+        score = score - 5;
+        scoreTracker.push(-5);
+        tossUpTracker.push(0);
+    }
+
     void setScore(int pointVal, boolean isTossUp){
         score = score + pointVal;
         scoreTracker.push(pointVal);
         if (isTossUp){
             tossUpCount++;
-            tossUpTracker.push("true");
+            tossUpTracker.push(1);
         }
-        tossUpTracker.push("false");
+        tossUpTracker.push(0);
     }
 
     void undoScore(int pointVal) {
         if (!scoreTracker.isEmpty() || !tossUpTracker.isEmpty()) {
             score = score - pointVal;
             scoreTracker.pop();
-            if (tossUpTracker.peek().equals("true")) {
-                tossUpCount--;
-                tossUpTracker.pop();
+            if (tossUpTracker.pop() == 1) {
+                tossUpCount = tossUpCount - 1;
+                System.out.println(Integer.toString(tossUpCount));
             }
         }
         if (scoreTracker.isEmpty() || tossUpTracker.isEmpty()){
@@ -58,5 +64,9 @@ class Team {
 
     Stack<Integer> getScoreTracker() {
         return scoreTracker;
+    }
+
+    Stack<Integer> getTossUpTracker() {
+        return tossUpTracker;
     }
 }

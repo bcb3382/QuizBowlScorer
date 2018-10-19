@@ -6,7 +6,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -77,6 +76,20 @@ public class QuizBowlScorerUI extends Application {
                     teamTwoScore.setText("Score: "+Integer.toString(teamTwo.getScore()));
                 });
 
+        //Toss-Up Button
+        Button penaltyOne = new Button("Interrupt");
+        penaltyOne.addEventHandler(javafx.event.ActionEvent.ANY,
+                (javafx.event.ActionEvent event ) -> {
+                    teamOne.penalty();
+                    teamOneScore.setText("Score: "+Integer.toString(teamOne.getScore()));
+                });
+        Button penaltyTwo = new Button("Interrupt");
+        penaltyTwo.addEventHandler(javafx.event.ActionEvent.ANY,
+                (javafx.event.ActionEvent event ) -> {
+                    teamTwo.penalty();
+                    teamTwoScore.setText("Score: "+Integer.toString(teamTwo.getScore()));
+                });
+
         //Undo Button
         Button undoButtonOne = new Button("Undo");
         undoer(teamOne, teamOneScore, teamOneTossUpCount, undoButtonOne);
@@ -85,9 +98,9 @@ public class QuizBowlScorerUI extends Application {
 
         //Button HBoxes
         HBox buttonRowOneOne = new HBox(10, addTossUpOne, addPowerMarkOne, addBonusOne);
-        HBox buttonRowTwoOne = new HBox(10, undoButtonOne);
+        HBox buttonRowTwoOne = new HBox(10, penaltyOne, undoButtonOne);
         HBox buttonRowOneTwo = new HBox(10, addTossUpTwo, addPowerMarkTwo, addBonusTwo);
-        HBox buttonRowTwoTwo = new HBox(10, undoButtonTwo);
+        HBox buttonRowTwoTwo = new HBox(10, penaltyTwo, undoButtonTwo);
 
         //TeamVBoxes
         VBox teamOneVBox = new VBox(10, new Label(teamOne.getName()), teamOneScore, teamOneTossUpCount, buttonRowOneOne, buttonRowTwoOne);
