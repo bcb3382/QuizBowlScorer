@@ -1,15 +1,21 @@
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import java.util.Scanner;
 import java.util.Stack;
 
 public class QuizBowlScorerUI extends Application {
+
+    private Font segoe20 = new Font("Segoe UI", 20);
+    private Font segoe30 = new Font("Segoe UI", 30);
+    private Font segoe45 = new Font("Segoe UI", 45);
 
     @Override
     public void start(Stage primaryStage) {
@@ -22,13 +28,23 @@ public class QuizBowlScorerUI extends Application {
         System.out.print("Team Two Name: ");
         teamTwo.setName(scanner.nextLine());
 
+        //Team Name Labels
+        Label teamOneName = new Label(teamOne.getName());
+        teamOneName.setFont(segoe20);
+        Label teamTwoName = new Label(teamTwo.getName());
+        teamTwoName.setFont(segoe20);
+
         //Score Labels
         Label teamOneScore = new Label("Score: "+Integer.toString(teamOne.getScore()));
+        teamOneScore.setFont(segoe30);
         Label teamTwoScore = new Label("Score: "+Integer.toString(teamTwo.getScore()));
+        teamTwoScore.setFont(segoe30);
 
         //Toss-Up Count Labels
         Label teamOneTossUpCount = new Label("Toss-Ups Answered: "+Integer.toString(teamOne.getTossUpCount()));
+        teamOneTossUpCount.setFont(segoe30);
         Label teamTwoTossUpCount = new Label("Toss-Ups Answered: "+Integer.toString(teamTwo.getTossUpCount()));
+        teamTwoTossUpCount.setFont(segoe30);
 
         //Toss-Up Button
         Button addTossUpOne = new Button("Toss-Up");
@@ -103,11 +119,15 @@ public class QuizBowlScorerUI extends Application {
         HBox buttonRowTwoTwo = new HBox(10, penaltyTwo, undoButtonTwo);
 
         //TeamVBoxes
-        VBox teamOneVBox = new VBox(10, new Label(teamOne.getName()), teamOneScore, teamOneTossUpCount, buttonRowOneOne, buttonRowTwoOne);
-        VBox teamTwoVBox = new VBox(10, new Label(teamTwo.getName()), teamTwoScore, teamTwoTossUpCount, buttonRowOneTwo, buttonRowTwoTwo);
+        VBox teamOneVBox = new VBox(10, teamOneName, teamOneScore, teamOneTossUpCount, buttonRowOneOne, buttonRowTwoOne);
+        teamOneVBox.setPadding(new Insets(10, 10, 10, 10));
+        VBox teamTwoVBox = new VBox(10, teamTwoName, teamTwoScore, teamTwoTossUpCount, buttonRowOneTwo, buttonRowTwoTwo);
+        teamTwoVBox.setPadding(new Insets(10, 10, 10, 10));
 
         //Make scene with a BorderPane
-        BorderPane layout = new BorderPane(null, new Label("RIT Quiz Bowl"), teamTwoVBox, null, teamOneVBox);
+        Label titleLabel = new Label("RIT Quiz Bowl");
+        titleLabel.setFont(segoe45);
+        BorderPane layout = new BorderPane(titleLabel, null, teamTwoVBox, null, teamOneVBox);
         Scene scene = new Scene(layout);
 
         //Set the stage
